@@ -1,35 +1,55 @@
 {
   "module": {
-    "stackgen_1536101e-a5e8-5592-9baf-a8ca10a7e38a": {
-      "block_public_access": true,
-      "bucket_name": "dv-scraping-bucket",
-      "bucket_policy": "",
-      "enable_versioning": true,
-      "enable_website_configuration": false,
-      "source": "./modules/aws_s3",
-      "sse_algorithm": "aws:kms",
-      "tags": {
-        "appstack": "EKS for scraper",
-        "component": "main"
-      },
-      "website_error_document": "404.html",
-      "website_index_document": "index.html"
+    "stackgen_2439b74f-3f2d-431a-a846-73771c69e49a": {
+      "name": "Writer-stackgen_b08905",
+      "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"CloudwatchLogGroupbf65d49c7cac5aeeb1422dd2dcc7599e0\",\n      \"Action\": [\n        \"logs:CreateLogGroup\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": [\n        \"${module.stackgen_bf65d49c-7cac-5aee-b142-2dd2dcc7599e.arn}\"\n      ]\n    },\n    {\n      \"Sid\": \"CloudwatchLogGroupbf65d49c7cac5aeeb1422dd2dcc7599e1\",\n      \"Action\": [\n        \"logs:CreateLogStream\",\n        \"logs:PutLogEvents\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": [\n        \"${module.stackgen_bf65d49c-7cac-5aee-b142-2dd2dcc7599e.arn}:*\"\n      ]\n    }\n  ]\n}",
+      "role": "${module.stackgen_f861183b-e01f-5d7a-9e59-348b901efbb1.name}",
+      "role_type": "Writer",
+      "source": "./modules/aws_iam_role_policy"
     },
-    "stackgen_526bbd44-c36e-5eb4-aed4-1327e79ec58c": {
-      "assume_role_policy": "{\n\t\t\"Version\": \"2012-10-17\",\n\t\t\"Statement\":{\n\t\t\t\t\"Action\": \"sts:AssumeRole\",\n\t\t\t\t\"Effect\": \"Allow\",\n\t\t\t\t\"Principal\": {\n\t\t\t\t\t\"Service\": \"eks.amazonaws.com\"\n\t\t\t\t}\n\t\t\t}\n\t}",
+    "stackgen_80e69937-12d6-5166-8662-e12d85fe3629": {
+      "architecture": "x86_64",
+      "authorization_type": "NONE",
+      "cors": [],
+      "create_function_url": false,
+      "description": null,
+      "environment_variables": {},
+      "event_source_arn": null,
+      "event_source_mapping": [],
+      "filename": null,
+      "function_name": "proj-dv-scraper-function",
+      "handler": "main.lambda_handler",
+      "image_uri": null,
+      "log_format": null,
+      "log_group_name": "${module.stackgen_bf65d49c-7cac-5aee-b142-2dd2dcc7599e.name}",
+      "memory_size": 128,
+      "role": "${module.stackgen_f861183b-e01f-5d7a-9e59-348b901efbb1.arn}",
+      "runtime": "python3.8",
+      "s3_bucket": null,
+      "s3_key": null,
+      "s3_object_version": null,
+      "source": "./modules/aws_lambda",
+      "system_log_level": null,
+      "tags": null,
+      "timeout": 3
+    },
+    "stackgen_bf65d49c-7cac-5aee-b142-2dd2dcc7599e": {
+      "name": "/aws/lambda/proj-dv-scraper-function",
+      "retention_in_days": 7,
+      "source": "./modules/aws_cloudwatch_log_group",
+      "tags": {
+        "appstack": "Lambda-iaac",
+        "component": "proj-dv-scraper"
+      }
+    },
+    "stackgen_f861183b-e01f-5d7a-9e59-348b901efbb1": {
+      "assume_role_policy": "{\n\t\t\"Version\": \"2012-10-17\",\n\t\t\"Statement\":{\n\t\t\t\t\"Action\": \"sts:AssumeRole\",\n\t\t\t\t\"Effect\": \"Allow\",\n\t\t\t\t\"Principal\": {\n\t\t\t\t\t\"Service\": \"lambda.amazonaws.com\"\n\t\t\t\t}\n\t\t\t}\n\t}",
       "description": null,
       "force_detach_policies": true,
       "inline_policy": [],
-      "name": "main-role",
+      "name": "proj-dv-scraper-role",
       "source": "./modules/aws_iam_role",
       "tags": null
-    },
-    "stackgen_88fa4dfb-0cc1-4716-8c0d-a9e21ec83e42": {
-      "name": "dv-scraping-bucket-aws_s3-main-policy",
-      "policy": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"AllowKmsAccess\",\n      \"Action\": [\n        \"kms:Decrypt\",\n        \"kms:Encrypt\",\n        \"kms:GenerateDataKey\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": [\n        \"${module.stackgen_1536101e-a5e8-5592-9baf-a8ca10a7e38a.kms_arn}\"\n      ]\n    },\n    {\n      \"Sid\": \"maindvscrapingbucketS3Bucket1536101ea5e855929bafa8ca10a7e38a\",\n      \"Action\": [\n        \"s3:PutObject\"\n      ],\n      \"Effect\": \"Allow\",\n      \"Resource\": [\n        \"${module.stackgen_1536101e-a5e8-5592-9baf-a8ca10a7e38a.arn}\",\n        \"${module.stackgen_1536101e-a5e8-5592-9baf-a8ca10a7e38a.arn}/*\"\n      ]\n    }\n  ]\n}",
-      "role": "${module.stackgen_526bbd44-c36e-5eb4-aed4-1327e79ec58c.name}",
-      "role_type": "Custom",
-      "source": "./modules/aws_iam_role_policy"
     }
   }
 }

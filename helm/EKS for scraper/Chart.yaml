@@ -1,6 +1,0 @@
-apiVersion: v2
-appVersion: 1.0.0
-description: Generated helm chart created for service "EKS for scraper" with appcd
-name: EKS for scraper
-type: application
-version: 0.1.0
